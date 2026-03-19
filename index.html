@@ -1,36 +1,59 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
     <head>
         <title>Q-Learning Demo</title>
         <script src="script.js" defer></script>
-        <link rel="stylesheet" href="styles.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="styles.css">
+        <script src="https://unpkg.com/lucide@0.577.0"></script>
+        <script>document.addEventListener("DOMContentLoaded", () => lucide.createIcons());</script>
     </head>
     <body>
-        <div>
-            <canvas id="canvas" width="500px" height="500px"></canvas>
-            <div>
-                <div class="slider">
-                    <label for="alpha">&alpha;</label>
-                    <input type="range" id="alpha" name="alpha" min="0" max="1" step="0.01" oninput="setAlpha(this.value)" onchange="setAlpha(this.value)" />
-                    <label for="alpha" id="alpha-label"></label>
+        <main class="app">
+            <header>
+                <h1>Q-Learning <span class="badge">Agent Demo</span></h1>
+            </header>
+
+            <div class="content">
+                <div class="canvas-parent">
+                    <canvas id="canvas" width="500px" height="500px"></canvas>
                 </div>
-                <div class="slider">
-                    <label for="gamma">&gamma;</label>
-                    <input type="range" id="gamma" name="gamma" min="0" max="1" step="0.01" oninput="setGamma(this.value)" onchange="setGamma(this.value)" />
-                    <label for="gamma" id="gamma-label"></label>
-                </div>
-                <div class="slider">
-                    <label for="epsilon">&epsilon;</label>
-                    <input type="range" id="epsilon" name="epsilon" min="0" max="1" step="0.01" oninput="setEpsilon(this.value)" onchange="setEpsilon(this.value)" />
-                    <label for="epsilon" id="epsilon-label"></label>
-                </div>
-                <div class="slider">
-                    <label for="speed">&RightArrow;</label>
-                    <input type="range" id="speed" name="speed" min="0" max="5" step="0.01" oninput="setSpeed(this.value)" onchange="setSpeed(this.value)" />
-                    <label for="speed" id="speed-label"></label>
-                </div>
+                <aside class="controls">
+                    <div class="control-group">
+                        <div class="label-row">
+                            <label for="alpha"><span class="text-icon">&alpha;</span> Learning Rate</label>
+                            <span id="alpha-label" class="value-tag">0.1</span>
+                        </div>
+                        <input type="range" id="alpha" min="0" max="1" step="0.01" oninput="setAlpha(this.value)">
+                    </div>
+
+                    <div class="control-group">
+                        <div class="label-row">
+                            <label for="gamma"><span class="text-icon">&gamma;</span> Discount</label>
+                            <span id="gamma-label" class="value-tag">0.9</span>
+                        </div>
+                        <input type="range" id="gamma" min="0" max="1" step="0.01" oninput="setGamma(this.value)">
+                    </div>
+
+                    <div class="control-group">
+                        <div class="label-row">
+                            <label for="epsilon"><span class="text-icon">&epsilon;</span> Exploration</label>
+                            <span id="epsilon-label" class="value-tag">0.1</span>
+                        </div>
+                        <input type="range" id="epsilon" min="0" max="1" step="0.01" oninput="setEpsilon(this.value)">
+                    </div>
+
+                    <div class="control-group">
+                        <div class="label-row">
+                            <label for="speed"><i data-lucide="gauge"></i> Simulation Speed</label>
+                            <span id="speed-label" class="value-tag">1.0</span>
+                        </div>
+                        <input type="range" id="speed" min="0" max="5" step="0.01" oninput="setSpeed(this.value)">
+                    </div>
+                </aside>
             </div>
-        </div>
+        </main>
     </body>
 </html>

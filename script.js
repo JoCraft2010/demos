@@ -14,21 +14,44 @@ class Q {
         this.barrier = true;
     }
 
+    min() {
+        return Math.min(this.u, this.d, this.l, this.r);
+    }
+
     max() {
         return Math.max(this.u, this.d, this.l, this.r);
+    }
+
+    maxDir() {
+        let currentMax = this.u;
+        let action = "u";
+        if (this.d > currentMax) {
+            currentMax = this.d;
+            action = "d";
+        }
+        if (this.l > currentMax) {
+            currentMax = this.l;
+            action = "l";
+        }
+        if (this.r > currentMax) {
+            currentMax = this.r;
+            action = "r";
+        }
+        return action;
     }
 }
 
 const grid = [];
 let agentX = 0, agentY = 0;
-const goalX = 9, goalY = 9;
+const goalX = 11, goalY = 11;
 let speed = 1;
 
 let alpha = 0.2, gamma = 0.9, epsilon = 0.1;
+const stepReward = -0.5, barrierReward = -5, goalReward = 10;
 
-for (let i = 0; i < 10; i++) {
+for (let i = 0; i < 12; i++) {
     const a = [];
-    for (let j = 0; j < 10; j++) {
+    for (let j = 0; j < 12; j++) {
         a.push(new Q(0, 0, 0, 0));
     }
     grid.push(a);
@@ -42,12 +65,35 @@ grid[4][3].makeBarrier()
 grid[5][3].makeBarrier()
 grid[6][3].makeBarrier()
 grid[9][3].makeBarrier()
+grid[10][3].makeBarrier()
+grid[11][3].makeBarrier()
+grid[3][5].makeBarrier()
 grid[4][5].makeBarrier()
 grid[5][5].makeBarrier()
 grid[6][5].makeBarrier()
 grid[7][5].makeBarrier()
 grid[8][5].makeBarrier()
 grid[9][5].makeBarrier()
+grid[1][7].makeBarrier()
+grid[2][7].makeBarrier()
+grid[3][7].makeBarrier()
+grid[4][7].makeBarrier()
+grid[5][7].makeBarrier()
+grid[6][7].makeBarrier()
+grid[7][7].makeBarrier()
+grid[8][7].makeBarrier()
+grid[9][7].makeBarrier()
+grid[10][7].makeBarrier()
+grid[11][7].makeBarrier()
+grid[1][8].makeBarrier()
+grid[1][9].makeBarrier()
+grid[1][10].makeBarrier()
+grid[4][9].makeBarrier()
+grid[4][10].makeBarrier()
+grid[4][11].makeBarrier()
+grid[7][8].makeBarrier()
+grid[7][9].makeBarrier()
+grid[7][10].makeBarrier()
 
 // biome-ignore lint/correctness/noUnusedVariables: html listener
 const setAlpha = (v) => {
@@ -84,20 +130,7 @@ document.getElementById("speed-label").innerText = speed;
 
 const step = () => {
     const q = grid[agentY][agentX];
-    let currentMax = q.u;
-    let action = "u";
-    if (q.d > currentMax) {
-        currentMax = q.d;
-        action = "d";
-    }
-    if (q.l > currentMax) {
-        currentMax = q.l;
-        action = "l";
-    }
-    if (q.r > currentMax) {
-        currentMax = q.r;
-        action = "r";
-    }
+    let action = q.maxDir();
 
     if (Math.random() < epsilon) {
         action = ["u", "d", "l", "r"][Math.floor(Math.random() * 4)];
@@ -110,49 +143,49 @@ const step = () => {
     switch (action) {
     case "u":
         if (agentY === 0 || grid[agentY - 1][agentX].barrier) {
-            r = -5;
+            r = barrierReward;
         } else if (agentY - 1 === goalY && agentX === goalX) {
             newY -= 1;
-            r = 10;
+            r = goalReward;
         } else {
             newY -= 1;
-            r = -1;
+            r = stepReward;
         }
         qn = q.u;
         break;
     case "d":
         if (agentY === grid.length - 1 || grid[agentY + 1][agentX].barrier) {
-            r = -5;
+            r = barrierReward;
         } else if (agentY + 1 === goalY && agentX === goalX) {
             newY += 1;
-            r = 10;
+            r = goalReward;
         } else {
             newY += 1;
-            r = -1;
+            r = stepReward;
         }
         qn = q.d;
         break;
     case "l":
         if (agentX === 0 || grid[agentY][agentX - 1].barrier) {
-            r = -5;
+            r = barrierReward;
         } else if (agentY === goalY && agentX - 1 === goalX) {
             newX -= 1;
-            r = 10;
+            r = goalReward;
         } else {
             newX -= 1;
-            r = -1;
+            r = stepReward;
         }
         qn = q.l;
         break;
     case "r":
         if (agentX === grid[agentY].length - 1 || grid[agentY][agentX + 1].barrier) {
-            r = -5;
+            r = barrierReward;
         } else if (agentY === goalY && agentX + 1 === goalX) {
             newX += 1;
-            r = 10;
+            r = goalReward;
         } else {
             newX += 1;
-            r = -1;
+            r = stepReward;
         }
         qn = q.r;
         break;
@@ -182,8 +215,11 @@ const step = () => {
         agentX = 0;
         agentY = 0;
     }
+};
 
-    setTimeout(step, 1000 / Math.exp(speed));
+const scheduleStep = () => {
+    step();
+    setTimeout(scheduleStep, 1000 / Math.exp(speed));
 };
 
 const f = () => {
@@ -191,6 +227,8 @@ const f = () => {
 
     for (let y = 0; y < grid.length; y++) {
         for (let x = 0; x < grid[y].length; x++) {
+            const minQ = grid[y][x].min();
+            const maxQ = grid[y][x].max();
             if (grid[y][x].barrier) {
                 ctx.fillStyle = "#ff00ff";
             } else if (x === agentX && y === agentY) {
@@ -198,14 +236,45 @@ const f = () => {
             } else if (x === goalX && y === goalY) {
                 ctx.fillStyle = "#0000ff";
             } else {
-                ctx.fillStyle = `rgb(${-grid[y][x].max() * 20}, ${grid[y][x].max() * 20}, 0)`;
+                ctx.fillStyle = `rgb(${-maxQ * 20}, ${maxQ * 20}, 0)`;
             }
-            ctx.fillRect(x * 50 + 2, y * 50 + 2, 46, 46);
+            const absX = Math.floor(x * canvas.width / grid[y].length - 0.5);
+            const absY = Math.floor(y * canvas.height / grid.length - 0.5);
+            const wid = Math.ceil(canvas.width / grid[y].length + 0.5);
+            const hei = Math.ceil(canvas.height / grid.length + 0.5);
+            ctx.fillRect(absX, absY, wid, hei);
+            ctx.save();
+            ctx.translate(absX + wid / 2, absY + hei / 2);
+            ctx.rotate({"u": -Math.PI / 2, "d": Math.PI / 2, "l": Math.PI, "r": 0}[grid[y][x].maxDir()]);
+            ctx.beginPath();
+            ctx.lineCap = "round";
+            ctx.lineJoin = "round";
+            const dif = Math.max(Math.min(Math.max(maxQ - minQ, 0) * 0.3, 1), Math.abs(maxQ) * 0.1);
+            const size = 0.4 * wid * dif;
+            ctx.strokeStyle = `rgba(248, 221, 40, ${dif ** 1.8})`;
+            ctx.lineWidth = 3;
+            ctx.moveTo(-size * 0.5, 0);
+            ctx.lineTo(size * 0.5, 0);
+            ctx.moveTo(size * 0.25, -size * 0.2);
+            ctx.lineTo(size * 0.5, 0);
+            ctx.lineTo(size * 0.25, size * 0.2);
+            ctx.stroke();
+            ctx.restore();
         }
     }
 
     requestAnimationFrame(f);
 };
 
+const onResize = () => {
+    const size = Math.min(window.innerWidth, window.innerHeight) / 2.5;
+    const dpr = window.devicePixelRatio || 1;
+
+    canvas.width = size * dpr;
+    canvas.height = size * dpr;
+};
+window.addEventListener("resize", onResize);
+onResize();
+
 requestAnimationFrame(f);
-step();
+scheduleStep();
