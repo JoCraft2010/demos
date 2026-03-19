@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Q-Learning Demo</title>
+        <script src="script.js" defer></script>
+        <link rel="stylesheet" href="styles.css" />
+    </head>
+    <body>
+        <div>
+            <canvas id="canvas" width="500px" height="500px"></canvas>
+            <div>
+                <div class="slider">
+                    <label for="alpha">&alpha;</label>
+                    <input type="range" id="alpha" name="alpha" min="0" max="1" step="0.01" oninput="setAlpha(this.value)" onchange="setAlpha(this.value)" />
+                    <label for="alpha" id="alpha-label"></label>
+                </div>
+                <div class="slider">
+                    <label for="gamma">&gamma;</label>
+                    <input type="range" id="gamma" name="gamma" min="0" max="1" step="0.01" oninput="setGamma(this.value)" onchange="setGamma(this.value)" />
+                    <label for="gamma" id="gamma-label"></label>
+                </div>
+                <div class="slider">
+                    <label for="epsilon">&epsilon;</label>
+                    <input type="range" id="epsilon" name="epsilon" min="0" max="1" step="0.01" oninput="setEpsilon(this.value)" onchange="setEpsilon(this.value)" />
+                    <label for="epsilon" id="epsilon-label"></label>
+                </div>
+                <div class="slider">
+                    <label for="speed">&RightArrow;</label>
+                    <input type="range" id="speed" name="speed" min="0" max="5" step="0.01" oninput="setSpeed(this.value)" onchange="setSpeed(this.value)" />
+                    <label for="speed" id="speed-label"></label>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
