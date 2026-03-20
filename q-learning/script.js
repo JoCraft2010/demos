@@ -46,7 +46,7 @@ let agentX = 0, agentY = 0;
 const goalX = 11, goalY = 11;
 let speed = 1;
 
-let alpha = 0.2, gamma = 0.9, epsilon = 0.1;
+let alpha = 0.2, gamma = 0.97, epsilon = 0.1;
 const stepReward = -0.5, barrierReward = -5, goalReward = 10;
 
 for (let i = 0; i < 12; i++) {
@@ -249,7 +249,7 @@ const f = () => {
             ctx.beginPath();
             ctx.lineCap = "round";
             ctx.lineJoin = "round";
-            const dif = Math.max(Math.min(Math.max(maxQ - minQ, 0) * 0.3, 1), Math.abs(maxQ) * 0.1);
+            const dif = Math.min(Math.max(Math.max(maxQ - minQ, 0) * 0.3, Math.abs(maxQ) * 0.8), 1) ** 0.8;
             const size = 0.4 * wid * dif;
             ctx.strokeStyle = `rgba(248, 221, 40, ${dif ** 1.8})`;
             ctx.lineWidth = 3;
