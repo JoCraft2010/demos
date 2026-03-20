@@ -34,14 +34,13 @@ header h1 {
     gap: 10px;
 }
 
-.badge {
-    font-size: 0.7rem;
-    background: var(--primary);
-    color: white;
-    padding: 2px 8px;
-    border-radius: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+.hgap {
+    display: inline-block;
+    width: 4px;
+}
+
+.vgap {
+    height: 1.5rem;
 }
 
 .content {
@@ -94,6 +93,42 @@ svg.lucide {
 
 .text-icon {
     margin-right: 4px;
+}
+
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.4rem 0.8rem;
+    margin: 4px;
+    font-family: inherit;
+    font-size: 0.875rem;
+    font-weight: 700;
+    cursor: pointer;
+    gap: 8px;
+    background-color: var(--primary);
+    color: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    user-select: none;
+}
+
+.btn-primary:hover {
+    background-color: #2563eb;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+    background-color: #1d4ed8;
+}
+
+.btn-primary:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
 }
 
 input[type=range] {

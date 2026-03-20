@@ -21,10 +21,18 @@
                     <canvas id="canvas" width="500px" height="500px"></canvas>
                 </div>
                 <aside class="controls">
+                    <div>
+                        <span><i data-lucide="footprints"></i> Steps: <span id="steps" class="value-tag">0</span></span>
+                        <span class="hgap"></span>
+                        <span><i data-lucide="refresh-ccw-dot"></i> Epochs: <span id="epochs" class="value-tag">0</span></span>
+                    </div>
+
+                    <div class="vgap"></div>
+
                     <div class="control-group">
                         <div class="label-row">
                             <label for="alpha"><span class="text-icon">&alpha;</span> Learning Rate</label>
-                            <span id="alpha-label" class="value-tag">0.1</span>
+                            <span id="alpha-label" class="value-tag"></span>
                         </div>
                         <input type="range" id="alpha" min="0" max="1" step="0.01" oninput="setAlpha(this.value)">
                     </div>
@@ -32,7 +40,7 @@
                     <div class="control-group">
                         <div class="label-row">
                             <label for="gamma"><span class="text-icon">&gamma;</span> Discount</label>
-                            <span id="gamma-label" class="value-tag">0.9</span>
+                            <span id="gamma-label" class="value-tag"></span>
                         </div>
                         <input type="range" id="gamma" min="0" max="1" step="0.01" oninput="setGamma(this.value)">
                     </div>
@@ -40,7 +48,7 @@
                     <div class="control-group">
                         <div class="label-row">
                             <label for="epsilon"><span class="text-icon">&epsilon;</span> Exploration</label>
-                            <span id="epsilon-label" class="value-tag">0.1</span>
+                            <span id="epsilon-label" class="value-tag"></span>
                         </div>
                         <input type="range" id="epsilon" min="0" max="1" step="0.01" oninput="setEpsilon(this.value)">
                     </div>
@@ -48,10 +56,18 @@
                     <div class="control-group">
                         <div class="label-row">
                             <label for="speed"><i data-lucide="gauge"></i> Simulation Speed</label>
-                            <span id="speed-label" class="value-tag">1.0</span>
+                            <span id="speed-label" class="value-tag"></span>
                         </div>
                         <input type="range" id="speed" min="0" max="5" step="0.01" oninput="setSpeed(this.value)">
                     </div>
+
+                    <div class="vgap"></div>
+
+                    <button type="button" class="btn-primary" onclick="skipEpochs(1)"><i data-lucide="redo-dot"></i> Skip 1 epoch</button> <br>
+                    <button type="button" class="btn-primary" onclick="skipEpochs(5)"><i data-lucide="redo-dot"></i> Skip 5 epochs</button> <br>
+                    <button type="button" class="btn-primary" onclick="skipEpochs(20)"><i data-lucide="redo-dot"></i> Skip 20 epochs</button> <br>
+                    <button type="button" class="btn-primary" onclick="skipEpochs(100)"><i data-lucide="redo-dot"></i> Skip 100 epochs</button> <br>
+                    <button type="button" class="btn-primary" onclick="skipEpochs(500)"><i data-lucide="redo-dot"></i> Skip 500 epochs</button>
                 </aside>
             </div>
         </main>

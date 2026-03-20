@@ -48,6 +48,13 @@ let speed = 1;
 
 let alpha = 0.2, gamma = 0.97, epsilon = 0.1;
 const stepReward = -0.5, barrierReward = -5, goalReward = 10;
+let skipping = false;
+let steps = 0, epochs = 0;
+
+const numFormat = new Intl.NumberFormat('en-US', {
+        notation: 'compact',
+        maximumFractionDigits: 1
+    });
 
 for (let i = 0; i < 12; i++) {
     const a = [];
@@ -210,16 +217,39 @@ const step = () => {
 
     agentX = newX;
     agentY = newY;
+    steps++;
 
     if (agentX === goalX && agentY === goalY) {
         agentX = 0;
         agentY = 0;
+        epochs++;
+        return true;
     }
+    return false;
 };
 
 const scheduleStep = () => {
     step();
     setTimeout(scheduleStep, 1000 / Math.exp(speed));
+};
+
+// biome-ignore lint/correctness/noUnusedVariables: html listener
+const skipEpochs = (num) => {
+    if (skipping) return;
+    skipping = true;
+    let epochs = 0;
+    const fn = () => {
+        let res = false;
+        let steps = 0;
+        while (!res && steps < 5000) {
+            res = step();
+            steps++;
+        }
+        epochs++;
+        if (epochs < num) setTimeout(fn, Math.max(-4.2 * Math.log(num) + 26, 1));
+        else skipping = false;
+    };
+    setTimeout(fn);
 };
 
 const f = () => {
@@ -231,7 +261,7 @@ const f = () => {
             const maxQ = grid[y][x].max();
             if (grid[y][x].barrier) {
                 ctx.fillStyle = "#ff00ff";
-            } else if (x === agentX && y === agentY) {
+            } else if (x === agentX && y === agentY && !skipping) {
                 ctx.fillStyle = "#ffff00";
             } else if (x === goalX && y === goalY) {
                 ctx.fillStyle = "#0000ff";
@@ -263,15 +293,16 @@ const f = () => {
         }
     }
 
+    document.getElementById("steps").innerText = numFormat.format(steps);
+    document.getElementById("epochs").innerText = numFormat.format(epochs);
     requestAnimationFrame(f);
 };
 
 const onResize = () => {
     const size = Math.min(window.innerWidth, window.innerHeight) / 2.5;
-    const dpr = window.devicePixelRatio || 1;
 
-    canvas.width = size * dpr;
-    canvas.height = size * dpr;
+    canvas.width = size;
+    canvas.height = size;
 };
 window.addEventListener("resize", onResize);
 onResize();
