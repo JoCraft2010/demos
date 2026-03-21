@@ -49,34 +49,6 @@ header h1 {
     align-items: flex-start;
 }
 
-.canvas-parent {
-    background: white;
-    padding: 12px;
-    border-radius: 16px;
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-    border: 1px solid var(--border);
-}
-
-canvas {
-    display: block;
-    border-radius: 4px;
-    background: var(--canvas-bg);
-}
-
-.value-tag {
-    display: inline-block;
-    background: var(--tag-background);
-    padding: 4px 8px;
-    margin-left: 4px;
-    border-radius: 6px;
-    font-size: 0.75rem;
-    color: var(--tag-color);
-    font-weight: 700;
-    box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.3);
-    min-width: 2rem;
-    text-align: center;
-}
-
 svg.lucide {
     display: inline-flex;
     align-items: center;
@@ -93,6 +65,56 @@ svg.lucide {
 
 .text-icon {
     margin-right: 4px;
+}
+
+.canvas-parent {
+    background: white;
+    padding: 12px;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    border: 1px solid var(--border);
+}
+
+canvas {
+    display: block;
+    border-radius: 4px;
+    background: var(--canvas-bg);
+}
+
+.percent-plot {
+    display: flex;
+    gap: 2px;
+}
+
+.percent-plot div {
+    height: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.percent-plot>:first-child {
+    border-top-left-radius: 0.25rem;
+    border-bottom-left-radius: 0.25rem;
+}
+
+.percent-plot>:last-child {
+    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+}
+
+.value-tag {
+    display: inline-block;
+    background: var(--tag-background);
+    padding: 4px 8px;
+    margin-left: 4px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    color: var(--tag-color);
+    font-weight: 700;
+    box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.3);
+    min-width: 2rem;
+    text-align: center;
 }
 
 .btn-primary {

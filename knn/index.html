@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <title>KNN Demo</title>
+        <script src="script.js" defer></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="/root.css">
+        <script src="https://unpkg.com/lucide@0.577.0"></script>
+        <script>document.addEventListener("DOMContentLoaded", () => lucide.createIcons());</script>
+    </head>
+    <body>
+        <main class="app">
+            <header>
+                <h1><i data-lucide="bot"></i> K-Nearest-Neighbour</h1>
+            </header>
+
+            <div class="content">
+                <div class="canvas-parent">
+                    <canvas id="canvas" width="500px" height="500px"></canvas>
+                </div>
+                <aside class="controls">
+                    <div class="control-group">
+                        <div class="label-row">
+                            <label for="k"><span class="text-icon">k</span> Neighbours</label>
+                            <span id="k-label" class="value-tag"></span>
+                        </div>
+                        <input type="range" id="k" min="1" max="100" step="1" oninput="setK(this.value)">
+                    </div>
+
+                    <div class="vgap"></div>
+
+                    <div class="percent-plot" id="plot"></div>
+
+                    <div class="vgap"></div>
+
+                    <button type="button" class="btn-primary" onclick="generateData()"><i data-lucide="refresh-cw"></i> Regenerate Data</button>
+                </aside>
+            </div>
+        </main>
+    </body>
+</html>
