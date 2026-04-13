@@ -10,8 +10,8 @@ class Q {
         this.barrier = false;
     }
 
-    makeBarrier() {
-        this.barrier = true;
+    toggleBarrier() {
+        this.barrier = !this.barrier;
     }
 
     min() {
@@ -64,43 +64,43 @@ for (let i = 0; i < 12; i++) {
     grid.push(a);
 }
 
-grid[0][3].makeBarrier()
-grid[1][3].makeBarrier()
-grid[2][3].makeBarrier()
-grid[3][3].makeBarrier()
-grid[4][3].makeBarrier()
-grid[5][3].makeBarrier()
-grid[6][3].makeBarrier()
-grid[9][3].makeBarrier()
-grid[10][3].makeBarrier()
-grid[11][3].makeBarrier()
-grid[3][5].makeBarrier()
-grid[4][5].makeBarrier()
-grid[5][5].makeBarrier()
-grid[6][5].makeBarrier()
-grid[7][5].makeBarrier()
-grid[8][5].makeBarrier()
-grid[9][5].makeBarrier()
-grid[1][7].makeBarrier()
-grid[2][7].makeBarrier()
-grid[3][7].makeBarrier()
-grid[4][7].makeBarrier()
-grid[5][7].makeBarrier()
-grid[6][7].makeBarrier()
-grid[7][7].makeBarrier()
-grid[8][7].makeBarrier()
-grid[9][7].makeBarrier()
-grid[10][7].makeBarrier()
-grid[11][7].makeBarrier()
-grid[1][8].makeBarrier()
-grid[1][9].makeBarrier()
-grid[1][10].makeBarrier()
-grid[4][9].makeBarrier()
-grid[4][10].makeBarrier()
-grid[4][11].makeBarrier()
-grid[7][8].makeBarrier()
-grid[7][9].makeBarrier()
-grid[7][10].makeBarrier()
+grid[0][3].toggleBarrier()
+grid[1][3].toggleBarrier()
+grid[2][3].toggleBarrier()
+grid[3][3].toggleBarrier()
+grid[4][3].toggleBarrier()
+grid[5][3].toggleBarrier()
+grid[6][3].toggleBarrier()
+grid[9][3].toggleBarrier()
+grid[10][3].toggleBarrier()
+grid[11][3].toggleBarrier()
+grid[3][5].toggleBarrier()
+grid[4][5].toggleBarrier()
+grid[5][5].toggleBarrier()
+grid[6][5].toggleBarrier()
+grid[7][5].toggleBarrier()
+grid[8][5].toggleBarrier()
+grid[9][5].toggleBarrier()
+grid[1][7].toggleBarrier()
+grid[2][7].toggleBarrier()
+grid[3][7].toggleBarrier()
+grid[4][7].toggleBarrier()
+grid[5][7].toggleBarrier()
+grid[6][7].toggleBarrier()
+grid[7][7].toggleBarrier()
+grid[8][7].toggleBarrier()
+grid[9][7].toggleBarrier()
+grid[10][7].toggleBarrier()
+grid[11][7].toggleBarrier()
+grid[1][8].toggleBarrier()
+grid[1][9].toggleBarrier()
+grid[1][10].toggleBarrier()
+grid[4][9].toggleBarrier()
+grid[4][10].toggleBarrier()
+grid[4][11].toggleBarrier()
+grid[7][8].toggleBarrier()
+grid[7][9].toggleBarrier()
+grid[7][10].toggleBarrier()
 
 // biome-ignore lint/correctness/noUnusedVariables: html listener
 const setAlpha = (v) => {
@@ -297,6 +297,13 @@ const f = () => {
     document.getElementById("epochs").innerText = numFormat.format(epochs);
     requestAnimationFrame(f);
 };
+
+canvas.addEventListener("click", (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / canvas.width;
+    const y = (e.clientY - rect.top) / canvas.height;
+    grid[Math.floor(y * grid.length)][Math.floor(x * grid.length)].toggleBarrier();
+})
 
 const onResize = () => {
     const size = Math.min(window.innerWidth, window.innerHeight) / 2.5;
